@@ -21,7 +21,7 @@ class ShowProduct extends Component {
       this.setState(() => ({ products: res.data }));
     });
   }
-
+  
   previewImage() {
     $(document).ready(function (e) {
       $("#inputImage").change(function () {
