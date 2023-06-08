@@ -124,7 +124,7 @@ class ShowTiki extends Component {
         : $("#preview-image-before-edit").attr("src").split("/")[6];
 
     const fd = new FormData();
-    fd.append("uploadImage", this.state.fileUpload);
+    fd.append("uploadImage", this.state.fileUpload);  // tải lên máy chủ
 
     if ($("#editImage").val().split("\\")[2]) {
       await axios
@@ -152,8 +152,8 @@ class ShowTiki extends Component {
       });
   }
 
-  async editProduct(id) {
-    let product = this.state.products.find((product) => product.id === id);
+  async editProduct(id) {  // gọi khi người dùng muốn chỉnh sửa một sản phẩm cụ thể
+    let product = this.state.products.find((product) => product.id === id); // lấy thông tin về sản phẩm từ một mảng products trong trạng thái (state) 
     $("#editID").val(product.id);
     $("#editName").val(product.name);
     $("#editDescription").val(product.description);
@@ -205,8 +205,6 @@ class ShowTiki extends Component {
       compact: true,
     },
 
- 
-
     {
       name: "Rate",
       selector: "rate",
@@ -245,6 +243,7 @@ class ShowTiki extends Component {
       compact: true,
     },
   ];
+
   render() {
     return (
       <div>
