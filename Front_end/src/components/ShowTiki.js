@@ -4,7 +4,7 @@ import $ from "jquery";
 import DataTable from "react-data-table-component";
 import Swal from 'sweetalert';
 
-class ShowProduct extends Component {
+class ShowTiki extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ class ShowProduct extends Component {
   }
 
   async componentDidMount() {
-    await axios.get("http://localhost:8000/api/get-product").then((res) => {
+    await axios.get("http://localhost:8000/api/get-Tiki").then((res) => {
       this.setState(() => ({ products: res.data }));
     });
   }
@@ -60,15 +60,12 @@ class ShowProduct extends Component {
     }
 
     await axios
-      .post("http://localhost:8000/api/add-product", {
+      .post("http://localhost:8000/api/add-Tiki", {
         name: $("#inputName").val(),
-        id_type: $("#inputType").val(),
+        price: $("#inputPrice").val(),
         description: $("#inputDescription").val(),
-        unit_price: $("#inputPrice").val(),
-        promotion_price: $("#inputPromotionPrice").val(),
         image: $("#inputImage").val().split("\\")[2],
-        unit: $("#inputUnit").val(),
-        new: $("#inputNew").val(),
+        rate: $("#inputType").val(),
       })
       .then((res) => {
         $("#inputImage").val("");
@@ -90,7 +87,7 @@ class ShowProduct extends Component {
   async deleteProduct(id) {
     if (window.confirm(`Bạn muốn xóa sản phẩm có id là ${id}`)) {
       await axios
-        .delete(`http://localhost:8000/api/delete-product/${id}`, {})
+        .delete(`http://localhost:8000/api/delete-Tiki/${id}`, {})
         .then((res) => {
           Swal({
             text: "Xóa thành công",
@@ -136,15 +133,12 @@ class ShowProduct extends Component {
     }
 
     await axios
-      .put(`http://localhost:8000/api/edit-product/${id}`, {
+      .put(`http://localhost:8000/api/edit-Tiki/${id}`, {
         name: $("#editName").val(),
-        id_type: $("#editType").val(),
         description: $("#editDescription").val(),
-        unit_price: $("#editPrice").val(),
-        promotion_price: $("#editPromotionPrice").val(),
+        price: $("#editPrice").val(),
         image: image,
-        unit: $("#editUnit").val(),
-        new: $("#editNew").val(),
+        rate: $("#editType").val(),
       })
       .then(() => {
         $("#editImage").val("");
@@ -162,16 +156,13 @@ class ShowProduct extends Component {
     let product = this.state.products.find((product) => product.id === id);
     $("#editID").val(product.id);
     $("#editName").val(product.name);
-    $("#editType").val(product.id_type);
     $("#editDescription").val(product.description);
-    $("#editPrice").val(product.unit_price);
-    $("#editPromotionPrice").val(product.promotion_price);
+    $("#editPrice").val(product.price);
     $("#preview-image-before-edit").attr(
       "src",
       `http://localhost:8000/source/image/product/${product.image}`
     );
-    $("#editUnit").val(product.unit);
-    $("#editNew").val(product.new);
+    $("#editType").val(product.rate);
   }
 
   columns = [
@@ -200,11 +191,6 @@ class ShowProduct extends Component {
       compact: true,
     },
     {
-      name: "ID_Type",
-      selector: "id_type",
-      sortable: true,
-    },
-    {
       name: "Description",
       selector: "description",
       sortable: true,
@@ -212,33 +198,21 @@ class ShowProduct extends Component {
       compact: true,
     },
     {
-      name: "Unit_price",
-      selector: "unit_price",
+      name: "Price",
+      selector: "price",
       sortable: true,
       wrap: true,
       compact: true,
     },
+
+ 
+
     {
-      name: "Promotion_price",
-      selector: "promotion_price",
+      name: "Rate",
+      selector: "rate",
       sortable: true,
-      wrap: true,
-      compact: true,
     },
-    {
-      name: "Unit",
-      selector: "unit",
-      sortable: true,
-      wrap: true,
-      compact: true,
-    },
-    {
-      name: "New",
-      selector: "new",
-      sortable: true,
-      wrap: true,
-      compact: true,
-    },
+
     {
       name: "Action",
       selector: "id",
@@ -326,44 +300,9 @@ class ShowProduct extends Component {
                         required
                       />
                     </div>
+           
                     <div className="form-group">
-                      <label htmlFor="inputPromotionPrice">
-                        Promotion Price
-                      </label>
-                      <input
-                        type="number"
-                        min={10000}
-                        className="form-control"
-                        name="inputPromotionPrice"
-                        id="inputPromotionPrice"
-                        placeholder="Enter promotion price"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="inputUnit">Unit</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="inputUnit"
-                        id="inputUnit"
-                        placeholder="Enter unit"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="inputNew">New</label>
-                      <input
-                        type="number"
-                        min={0}
-                        className="form-control"
-                        name="inputNew"
-                        id="inputNew"
-                        placeholder="Enter new"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="inputType">Type</label>
+                      <label htmlFor="inputType">Rate</label>
                       <input
                         type="number"
                         min={1}
@@ -374,6 +313,8 @@ class ShowProduct extends Component {
                         required
                       />
                     </div>
+       
+               
                     <div className="form-group">
                       <label htmlFor="inputImage">Image file</label>
                       <input
@@ -475,45 +416,9 @@ class ShowProduct extends Component {
                         required
                       />
                     </div>
+             
                     <div className="form-group">
-                      <label htmlFor="editPromotionPrice">
-                        Promotion Price
-                      </label>
-                      <input
-                        type="number"
-                        min={10000}
-                        className="form-control"
-                        name="editPromotionPrice"
-                        id="editPromotionPrice"
-                        placeholder="Enter promotion price"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="editUnit">Unit</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="editUnit"
-                        id="editUnit"
-                        placeholder="Enter unit"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="editNew">New</label>
-                      <input
-                        type="number"
-                        min={0}
-                        className="form-control"
-                        name="editNew"
-                        id="editNew"
-                        placeholder="Enter new"
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="editType">Type</label>
+                      <label htmlFor="inputType">Rate</label>
                       <input
                         type="number"
                         min={1}
@@ -524,7 +429,8 @@ class ShowProduct extends Component {
                         required
                       />
                     </div>
-                    
+              
+               
                     <div className="form-group">
                       <label htmlFor="editImage">Image file</label>
                       <input
@@ -588,4 +494,4 @@ class ShowProduct extends Component {
   }
 }
 
-export default ShowProduct;
+export default ShowTiki;

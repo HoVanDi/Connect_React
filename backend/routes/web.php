@@ -2,7 +2,9 @@
 								
 use Illuminate\Http\Request;								
 use Illuminate\Support\Facades\Route;								
-use App\Http\Controllers\APIController;								
+use App\Http\Controllers\APIController;		
+use App\Http\Controllers\TikiController;						
+use App\Http\Controllers\ApiTikiController;						
 /*								
 |--------------------------------------------------------------------------								
 | API Routes								
@@ -27,3 +29,20 @@ Route::delete('/delete-product/{id}',[ApiController::class,'deleteProduct']);
 Route::put('/edit-product/{id}',[ApiController::class,'editProduct']);								
 								
 Route::post('/upload-image',[ApiController::class,'uploadImage']);								
+
+
+
+
+Route::get('/get-Tiki',[ApiTikiController::class,'getTikis']);		
+Route::get('/get-Tiki/{id}', [ApiTikiController::class,'getOneTiki']);		
+Route::post('/add-Tiki',[ApiTikiController::class,'addTiki']);
+Route::delete('/delete-Tiki/{id}',[ApiTikiController::class,'deleteTiki']);		
+Route::put('/edit-Tiki/{id}',[ApiTikiController::class,'editTiki']);
+// Route::post('/upload-image',[ApiController::class,'uploadImage']);					
+
+
+
+//Dữ liệu ảo đã được chèn vào bảng Tiki.
+Route::get('/seed-tiki-data', [TikiController::class, 'seedTikiData']);
+
+

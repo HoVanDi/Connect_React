@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\ApiTikiController;			
 
 /*								
 |--------------------------------------------------------------------------								
@@ -30,3 +31,11 @@ Route::delete('/delete-product/{id}', [APIController::class, 'deleteProduct']);
 Route::put('/edit-product/{id}', [APIController::class, 'editProduct']);
 
 Route::post('/upload-image', [APIController::class, 'uploadImage']);
+
+
+//Tiki
+Route::get('/get-Tiki',[ApiTikiController::class,'getTikis']);		
+Route::get('/get-Tiki/{id}', [ApiTikiController::class,'getOneTiki']);		
+Route::post('/add-Tiki',[ApiTikiController::class,'addTiki']);
+Route::delete('/delete-Tiki/{id}',[ApiTikiController::class,'deleteTiki']);		
+Route::put('/edit-Tiki/{id}',[ApiTikiController::class,'editTiki']);
